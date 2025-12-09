@@ -1,10 +1,13 @@
 package com.pluralsight.NorthwindTradersAPI.dao;
 
+import com.pluralsight.NorthwindTradersAPI.models.Category;
+
+import java.sql.SQLException;
 import java.util.List;
 
 public interface CategoryDao {
 
-    List<CategoryDao> getAll();
+    List<Category> getAll() throws SQLException;
 
-    ProductDao getById(int id);
+    Category getById(int id) throws SQLException;
 }
