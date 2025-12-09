@@ -47,8 +47,8 @@ public class JdbcProductDao implements ProductDao {
         return products;
     }
 
-    @Override
-    public Product getById(int id) throws SQLException {
+
+    public Product getById2(int id) throws SQLException {
 
         List<Product> products = new ArrayList<>();
 
@@ -71,6 +71,34 @@ public class JdbcProductDao implements ProductDao {
                     }
             }
         }
-        return products.get(0);
+        return products.getFirst();
+    }
+
+    @Override
+    public Product getById(int id) throws SQLException {
+
+        try(
+                Connection connection = this.dataSource.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement("SELECT ProductId, ProductName, UnitPrice FROM products WHERE CategoryID = ?");
+        ){
+            preparedStatement.setInt(1, id);
+
+            try(ResultSet results = preparedStatement.executeQuery()){
+
+                if (results.next()){
+                    int productId = results.getInt("ProductId");
+                    String productName = results.getString("ProductName");
+                    int categoryID = results.getInt("CategoryId");
+                    double unitPrice = results.getDouble("UnitPrice");
+
+                    Product p = new Product(productId, productName, categoryID, unitPrice);
+                    return p;
+                }
+                else{
+                    return null;
+                }
+            }
+        }
+
     }
 }
