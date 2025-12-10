@@ -15,12 +15,14 @@ import java.util.List;
 @Component
 public class JdbcProductDao implements ProductDao {
 
-    DataSource dataSource;
+   private DataSource dataSource;
 
     @Autowired
     public JdbcProductDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
+
 
     @Override
     public List<Product> getAll() throws SQLException {
@@ -29,7 +31,7 @@ public class JdbcProductDao implements ProductDao {
 
         try(
                 Connection connection = this.dataSource.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement("SELECT ProductId, ProductName, UnitPrice FROM products");
+                PreparedStatement preparedStatement = connection.prepareStatement("SELECT ProductId, ProductName, UnitPrice, CategoryID FROM products");
                 ResultSet results = preparedStatement.executeQuery();
                 ){
 
@@ -47,14 +49,12 @@ public class JdbcProductDao implements ProductDao {
         return products;
     }
 
-
-
     @Override
     public Product getById(int id) throws SQLException {
 
         try(
                 Connection connection = this.dataSource.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement("SELECT ProductId, ProductName, UnitPrice FROM products WHERE ProductID = ?");
+                PreparedStatement preparedStatement = connection.prepareStatement("SELECT ProductId, ProductName, UnitPrice, CategoryID FROM products WHERE ProductID = ?");
         ){
             preparedStatement.setInt(1, id);
 
@@ -69,11 +69,24 @@ public class JdbcProductDao implements ProductDao {
                     Product p = new Product(productId, productName, categoryID, unitPrice);
                     return p;
                 }
-                else{
-                    return null;
-                }
             }
         }
+        return null;
+    }
+
+    @Override
+    public Product insert(Product product) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public void update(int id, Product product) throws SQLException {
+
+    }
+
+    @Override
+    public void delete(int id) throws SQLException {
+
     }
 
 
