@@ -38,12 +38,14 @@ public class ProductsController {
         return productDao.insert(product);
     }
 
-    @RequestMapping(path ="/product/{id}", method = RequestMethod.PUT)
-    public void updateProduct(@PathVariable int id, @RequestBody Product product) throws SQLException {
-           productDao.update(id, product);
+
+
+    @RequestMapping(path="/products/{id}", method=RequestMethod.PUT)
+    public void updateProduct( @PathVariable int id, @RequestBody Product product) throws SQLException {
+        productDao.update(id,product);
     }
 
-    @RequestMapping(path ="/product/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(path ="/products/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable int id) throws SQLException {
            productDao.delete(id);

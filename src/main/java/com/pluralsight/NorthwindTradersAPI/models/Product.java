@@ -1,14 +1,23 @@
 package com.pluralsight.NorthwindTradersAPI.models;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class Product {
     private int productId;
     private String name;
     private int categoryId;
     private double price;
 
-
+    @Autowired
     public Product(){
 
+    }
+
+    public Product(String name, int categoryId, double price) {
+        this.productId = 0;
+        this.name = name;
+        this.categoryId = categoryId;
+        this.price = price;
     }
 
     public Product(int productId, String name, int categoryId, double price) {
